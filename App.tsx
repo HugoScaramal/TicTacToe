@@ -2,7 +2,11 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 function App() {
-  const [board, setBoard] = useState(Array(3).fill(0).map(() => Array(3).fill(null)));
+  const [board, setBoard] = useState(
+    Array(3)
+      .fill(0)
+      .map(() => Array(3).fill(null)),
+  );
   const [currentPlayer, setCurrentPlayer] = useState('X');
 
   const handlePress = (row: number, col: React.Key | null | undefined) => {
@@ -83,6 +87,13 @@ function App() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.winnerText}>
+        {winner
+          ? `Player ${winner} wins!`
+          : isTie
+          ? 'It is a tie!'
+          : `Player ${currentPlayer}'s turn`}
+      </Text>
       {board.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
           {row.map((cell: any, colIndex: React.Key | null | undefined) => (
@@ -97,7 +108,6 @@ function App() {
       ))}
       {(winner || isTie) && (
         <View>
-          <Text>{`Player ${winner} wins!`}</Text>
           <TouchableOpacity style={styles.resetButton} onPress={resetGame}>
             <Text style={styles.resetButtonText}>New Game</Text>
           </TouchableOpacity>
@@ -112,28 +122,43 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#F5FCFF',
   },
   row: {
     flexDirection: 'row',
   },
   cell: {
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     borderWidth: 1,
+    borderColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#ADD8E6',
   },
   cellText: {
-    fontSize: 24,
+    fontSize: 36,
+    fontWeight: 'bold',
   },
   resetButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: 'blue',
+    backgroundColor: '#4682B4',
+    borderRadius: 5,
   },
   resetButtonText: {
     color: 'white',
     fontSize: 16,
+  },
+  winnerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  turnText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 
