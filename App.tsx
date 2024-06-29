@@ -58,7 +58,19 @@ function App() {
     return null;
   };
 
+  const checkForTie = () => {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!board[i][j]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   const winner = checkForWin();
+  const isTie = checkForTie();
 
   const resetGame = () => {
     setBoard(
@@ -83,7 +95,7 @@ function App() {
           ))}
         </View>
       ))}
-      {winner && (
+      {(winner || isTie) && (
         <View>
           <Text>{`Player ${winner} wins!`}</Text>
           <TouchableOpacity style={styles.resetButton} onPress={resetGame}>
